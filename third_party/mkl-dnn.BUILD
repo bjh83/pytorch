@@ -117,6 +117,7 @@ cc_library(
         "src/cpu/rv64/**/*.hpp",
         "src/cpu/rv64/**/*.h",
         "src/cpu/sycl/**/*.hpp",
+        "include/oneapi/dnnl/dnnl_config.h",
     ]) + [
         "include/oneapi/dnnl/dnnl_config.h",
         "include/oneapi/dnnl/dnnl_version.h",
