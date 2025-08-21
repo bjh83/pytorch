@@ -440,7 +440,10 @@ torch_cuda_half_options = [
 cu_library(
     name = "aten_cuda",
     srcs = [":aten_cu_srcs"],
-    copts = ATEN_COPTS + torch_cuda_half_options,
+    copts = ATEN_COPTS + torch_cuda_half_options + [
+        "-Wno-error=missing-field-initializers",
+        "-Wno-missing-field-initializers",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         ":aten_cuda_cpp",
