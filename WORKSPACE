@@ -105,10 +105,10 @@ local_repository(
     path = "third_party/protobuf",
 )
 
-new_local_repository(
+http_archive(
     name = "eigen",
     build_file = "//third_party:eigen.BUILD",
-    path = "third_party/eigen",
+    url = "https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.zip",
 )
 
 new_local_repository(
