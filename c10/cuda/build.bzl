@@ -19,7 +19,10 @@ def define_targets(rules, extra_defines=[]):
                 "CUDAMacros.h",
             ],
         ),
-        defines = ["USE_CUDA"] + extra_defines,
+        defines = [
+            "USE_CUDA",
+            "PYTORCH_C10_DRIVER_API_SUPPORTED=1",
+        ] + extra_defines,
         linkstatic = True,
         local_defines = ["C10_BUILD_MAIN_LIB"],
         target_compatible_with = rules.requires_cuda_enabled(),

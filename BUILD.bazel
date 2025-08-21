@@ -33,6 +33,9 @@ COMMON_COPTS = [
     # use cub in a safe manner, see:
     # https://github.com/pytorch/pytorch/pull/55292
     "-DCUB_WRAPPED_NAMESPACE=at_cuda_detail",
+    # Seems like this should be set if CAFFE2_NIGHTLY_VERSION is set *AND*
+    # USE_DISTRIBUTED and !WIN32 is set. See: caffe2/CMakeLists.txt:583
+    "-DPYTORCH_C10_DRIVER_API_SUPPORTED=1",
 ])
 
 aten_generation_srcs = ["aten/src/ATen/native/native_functions.yaml"] + ["aten/src/ATen/native/tags.yaml"] + glob(["aten/src/ATen/templates/**"])
