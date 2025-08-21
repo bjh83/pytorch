@@ -265,10 +265,11 @@ new_local_repository(
     path = "/usr/local/cuda",
 )
 
-new_local_repository(
+http_archive(
     name = "cudnn",
     build_file = "@//third_party:cudnn.BUILD",
-    path = "/usr/local/cuda",
+    strip_prefix = "cudnn-linux-x86_64-9.12.0.46_cuda12-archive",
+    url = "https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/linux-x86_64/cudnn-linux-x86_64-9.12.0.46_cuda12-archive.tar.xz",
 )
 
 new_local_repository(
