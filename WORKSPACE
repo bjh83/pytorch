@@ -1,6 +1,7 @@
 workspace(name = "pytorch")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("//tools/rules:workspace.bzl", "new_patched_local_repository")
 
 http_archive(
@@ -52,10 +53,11 @@ http_archive(
     urls = ["https://github.com/pybind/pybind11_bazel/archive/b162c7c88a253e3f6b673df0c621aca27596ce6b.zip"],
 )
 
-new_local_repository(
+git_repository(
     name = "pybind11",
     build_file = "@pybind11_bazel//:pybind11.BUILD",
-    path = "third_party/pybind11",
+    remote = "https://github.com/pybind/pybind11.git",
+    commit = "a2e59f0e7065404b44dfe92a28aca47ba1378dc4",
 )
 
 http_archive(
@@ -88,21 +90,24 @@ http_archive(
     ],
 )
 
-new_local_repository(
+git_repository(
     name = "gloo",
     build_file = "//third_party:gloo.BUILD",
-    path = "third_party/gloo",
+    remote = "https://github.com/pytorch/gloo",
+    commit = "c7b7b022c124d9643957d9bd55f57ac59fce8fa2",
 )
 
-new_local_repository(
+git_repository(
     name = "onnx",
     build_file = "//third_party:onnx.BUILD",
-    path = "third_party/onnx",
+    remote = "https://github.com/onnx/onnx.git",
+    commit = "e709452ef2bbc1d113faf678c24e6d3467696e83",
 )
 
-local_repository(
+git_repository(
     name = "com_google_protobuf",
-    path = "third_party/protobuf",
+    remote = "https://github.com/protocolbuffers/protobuf.git",
+    commit = "d1eca4e4b421cd2997495c4b4e65cea6be4e9b8a",
 )
 
 http_archive(
@@ -111,23 +116,25 @@ http_archive(
     url = "https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.zip",
 )
 
-new_local_repository(
+git_repository(
     name = "cutlass",
     build_file = "//third_party:cutlass.BUILD",
-    path = "third_party/cutlass",
+    remote = "https://github.com/NVIDIA/cutlass.git",
+    commit = "b995f933179c22d3fe0d871c3a53d11e4681950f",
 )
 
-new_local_repository(
+git_repository(
     name = "fbgemm",
-    build_file = "//third_party:fbgemm/BUILD.bazel",
-    path = "third_party/fbgemm",
+    remote = "https://github.com/pytorch/fbgemm",
+    commit = "157e88b750c452bef2ab4653fe9d1eeb151ce4c3",
     repo_mapping = {"@cpuinfo": "@org_pytorch_cpuinfo"},
 )
 
-new_local_repository(
+git_repository(
     name = "ideep",
     build_file = "//third_party:ideep.BUILD",
-    path = "third_party/ideep",
+    remote = "https://github.com/intel/ideep",
+    commit = "719d8e6cd7f7a0e01b155657526d693acf97c2b3",
 )
 
 new_local_repository(
@@ -136,10 +143,10 @@ new_local_repository(
     path = "third_party/ideep/mkl-dnn",
 )
 
-new_local_repository(
+git_repository(
     name = "org_pytorch_cpuinfo",
-    build_file = "//third_party:cpuinfo/BUILD.bazel",
-    path = "third_party/cpuinfo",
+    remote = "https://github.com/pytorch/cpuinfo.git",
+    commit = "5e3d2445e6a84d9599bee2bf78edbb4d80865e1d",
 )
 
 new_local_repository(
@@ -148,16 +155,18 @@ new_local_repository(
     path = "third_party/fbgemm/external/asmjit",
 )
 
-new_local_repository(
+git_repository(
     name = "sleef",
     build_file = "//third_party:sleef.BUILD",
-    path = "third_party/sleef",
+    remote = "https://github.com/shibatch/sleef",
+    commit = "5a1d179df9cf652951b59010a2d2075372d67f68",
 )
 
-new_local_repository(
+git_repository(
     name = "fmt",
     build_file = "//third_party:fmt.BUILD",
-    path = "third_party/fmt",
+    remote = "https://github.com/fmtlib/fmt.git",
+    commit = "40626af88bd7df9a5fb80be7b25ac85b122d6c21",
 )
 
 new_local_repository(
@@ -166,22 +175,25 @@ new_local_repository(
     path = "third_party/kineto",
 )
 
-new_local_repository(
+git_repository(
     name = "opentelemetry-cpp",
-    build_file = "//third_party::opentelemetry-cpp.BUILD",
-    path = "third_party/opentelemetry-cpp",
+    build_file = "//third_party:opentelemetry-cpp.BUILD",
+    remote = "https://github.com/open-telemetry/opentelemetry-cpp.git",
+    commit = "a799f4aed9c94b765dcdaabaeab7d5e7e2310878",
 )
 
-new_local_repository(
+git_repository(
     name = "cpp-httplib",
     build_file = "//third_party:cpp-httplib.BUILD",
-    path = "third_party/cpp-httplib",
+    remote = "https://github.com/yhirose/cpp-httplib.git",
+    commit = "3af7f2c16147f3fbc6e4d717032daf505dc1652c",
 )
 
-new_local_repository(
+git_repository(
     name = "nlohmann",
     build_file = "//third_party:nlohmann.BUILD",
-    path = "third_party/nlohmann",
+    remote = "https://github.com/nlohmann/json.git",
+    commit = "55f93686c01528224f448c19128836e7df245f72",
 )
 
 new_local_repository(
@@ -190,10 +202,12 @@ new_local_repository(
     path = "third_party/concurrentqueue",
 )
 
-new_local_repository(
+git_repository(
     name = "tensorpipe",
     build_file = "//third_party:tensorpipe.BUILD",
-    path = "third_party/tensorpipe",
+    remote = "https://github.com/pytorch/tensorpipe.git",
+    commit = "52791a2fd214b2a9dc5759d36725909c1daa7f2e",
+    recursive_init_submodules = True,
 )
 
 http_archive(
@@ -272,54 +286,63 @@ http_archive(
     url = "https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/linux-x86_64/cudnn-linux-x86_64-9.12.0.46_cuda12-archive.tar.xz",
 )
 
-new_local_repository(
+git_repository(
     name = "cudnn_frontend",
     build_file = "@//third_party:cudnn_frontend.BUILD",
-    path = "third_party/cudnn_frontend/",
+    remote = "https://github.com/NVIDIA/cudnn-frontend.git",
+    commit = "f937055efc6d414d11f4c6577e3977fe74f35fb6",
 )
 
-local_repository(
+git_repository(
     name = "com_github_google_flatbuffers",
-    path = "third_party/flatbuffers",
+    remote = "https://github.com/google/flatbuffers.git",
+    commit = "a2cd1ea3b6d3fee220106b5fed3f7ce8da9eb757",
 )
 
-local_repository(
+git_repository(
     name = "google_benchmark",
-    path = "third_party/benchmark",
+    remote = "https://github.com/google/benchmark.git",
+    commit = "299e5928955cc62af9968370293b916f5130916f",
 )
 
-local_repository(
+git_repository(
     name = "com_google_googletest",
-    path = "third_party/googletest",
+    remote = "https://github.com/google/googletest.git",
+    commit = "52eb8108c5bdec04579160ae17225d66034bd723",
 )
 
-local_repository(
+git_repository(
     name = "pthreadpool",
-    path = "third_party/pthreadpool",
+    remote = "https://github.com/Maratyszcza/pthreadpool.git",
+    commit = "4fe0e1e183925bf8cfa6aae24237e724a96479b8",
     repo_mapping = {"@com_google_benchmark": "@google_benchmark"},
 )
 
-local_repository(
+git_repository(
     name = "FXdiv",
-    path = "third_party/FXdiv",
+    remote = "https://github.com/Maratyszcza/FXdiv.git",
+    commit = "b408327ac2a15ec3e43352421954f5b1967701d1",
     repo_mapping = {"@com_google_benchmark": "@google_benchmark"},
 )
 
-local_repository(
+git_repository(
     name = "XNNPACK",
-    path = "third_party/XNNPACK",
+    remote = "https://github.com/google/XNNPACK.git",
+    commit = "51a0103656eff6fc9bfd39a4597923c4b542c883",
     repo_mapping = {"@com_google_benchmark": "@google_benchmark"},
 )
 
-local_repository(
+git_repository(
     name = "gemmlowp",
-    path = "third_party/gemmlowp/gemmlowp",
+    remote = "https://github.com/google/gemmlowp.git",
+    commit = "3fb5c176c17c765a3492cd2f0321b0dab712f350",
 )
 
-local_repository(
+git_repository(
     name = "kleidiai",
-    path = "third_party/kleidiai",
     repo_mapping = {"@com_google_googletest": "@com_google_benchmark"},
+    remote = "https://github.com/ARM-software/kleidiai.git",
+    commit = "cca02c2f69dd18e1f12647c1c0bdc8cf90e680c7",
 )
 
 ### Unused repos start
