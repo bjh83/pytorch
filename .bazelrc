@@ -16,8 +16,6 @@ build:no-tty --show_progress_rate_limit 10
 # Build with GPU support by default.
 build --define=cuda=true
 # rules_cuda configuration
-build --@rules_cuda//cuda:enable_cuda
-build --@rules_cuda//cuda:cuda_targets=sm_52
 build --@rules_cuda//cuda:compiler=nvcc
 build --repo_env=CUDA_PATH=/usr/local/cuda
 
@@ -28,8 +26,6 @@ build:cpu-only --platform_suffix=-cpu-only
 # See the note on the config-less build for details about why we are
 # doing this. We must also do it for the "-cpu-only" platform suffix.
 build --copt=-isystem --copt=bazel-out/k8-fastbuild-cpu-only/bin
-# rules_cuda configuration
-build:cpu-only --@rules_cuda//cuda:enable_cuda=False
 
 # Definition of --config=shell
 # interactive shell immediately before execution
@@ -98,6 +94,7 @@ build --per_file_copt='^//.*\.(cpp|cc)$'@-Wno-missing-field-initializers
 
 build --per_file_copt='^//.*\.(cpp|cc)$'@-Wno-unused-function
 build --per_file_copt='^//.*\.(cpp|cc)$'@-Wno-unused-variable
+build --per_file_copt='^//.*\.(cpp|cc)$'@-Wno-error=sign-compare
 
 build --per_file_copt='//:aten/src/ATen/RegisterCompositeExplicitAutograd\.cpp$'@-Wno-error=unused-function
 build --per_file_copt='//:aten/src/ATen/RegisterCompositeImplicitAutograd\.cpp$'@-Wno-error=unused-function

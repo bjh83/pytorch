@@ -1,5 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
-load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda_enabled")
+#load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda_enabled")
+load("@rules_cuda//cuda:defs.bzl", "cuda_library")
 load("@rules_python//python:defs.bzl", "py_binary", "py_library")
 load("@pip_deps//:requirements.bzl", "requirement")
 load("@pytorch//c10/macros:cmake_configure_file.bzl", "cmake_configure_file")
@@ -11,6 +12,12 @@ def _genrule(**kwds):
 
 def _is_cpu_static_dispatch_build():
     return False
+
+# Shim for TF-vendored rules_cuda API.
+def requires_cuda_enabled(tags = []):
+    # When CUDA is enabled: keep 'tags' as-is.
+    # When disabled: mark target manual so it doesn't fail analysis on CPU builds.
+    return if_cuda(tags, tags + ["manual"])
 
 # Rules implementation for the Bazel build system. Since the common
 # build structure aims to replicate Bazel as much as possible, most of

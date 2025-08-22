@@ -5,6 +5,7 @@ cc_library(
     hdrs = ["httplib.h"],
     includes = [
         "/",
+        ".",
     ],
     visibility = ["//visibility:public"],
 )

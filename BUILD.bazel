@@ -329,9 +329,6 @@ ATEN_COPTS = COMMON_COPTS + [
     "-DCAFFE2_BUILD_MAIN_LIBS",
     "-DHAVE_AVX_CPU_DEFINITION",
     "-DHAVE_AVX2_CPU_DEFINITION",
-    "-fvisibility-inlines-hidden",
-    "-fno-math-errno",
-    "-fno-trapping-math",
 ]
 
 intern_build_aten_ops(
@@ -440,10 +437,7 @@ torch_cuda_half_options = [
 cu_library(
     name = "aten_cuda",
     srcs = [":aten_cu_srcs"],
-    copts = ATEN_COPTS + torch_cuda_half_options + [
-        "-Wno-error=missing-field-initializers",
-        "-Wno-missing-field-initializers",
-    ],
+    copts = ATEN_COPTS + torch_cuda_half_options,
     visibility = ["//visibility:public"],
     deps = [
         ":aten_cuda_cpp",
@@ -827,6 +821,7 @@ cc_library(
         ":libtorch_headers",
         ":shm",
         "@pybind11",
+        "@cpp-httplib",
     ],
 )
 

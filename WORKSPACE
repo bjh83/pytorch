@@ -4,6 +4,23 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//tools/rules:workspace.bzl", "new_patched_local_repository")
 
 http_archive(
+    name = "build_bazel_apple_support",
+    sha256 = "6fe50a731bd31b4af3ad7bdefff19db47b36a684e55e4b9674a7af1401349eae",
+    url = "https://github.com/bazelbuild/apple_support/releases/download/1.22.1/apple_support.1.22.1.tar.gz",
+)
+
+load(
+    "@build_bazel_apple_support//lib:repositories.bzl",
+    "apple_support_dependencies",
+)
+
+apple_support_dependencies()
+
+load("@bazel_features//:deps.bzl", "bazel_features_deps")
+
+bazel_features_deps()
+
+http_archive(
     name = "rules_cc",
     patches = [
         "//:tools/rules_cc/cuda_support.patch",
@@ -16,12 +33,6 @@ http_archive(
 )
 
 http_archive(
-    name = "rules_cuda",
-    strip_prefix = "runtime-b1c7cce21ba4661c17ac72421c6a0e2015e7bef3/third_party/rules_cuda",
-    urls = ["https://github.com/tensorflow/runtime/archive/b1c7cce21ba4661c17ac72421c6a0e2015e7bef3.tar.gz"],
-)
-
-http_archive(
     name = "platforms",
     urls = [
         "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.10/platforms-0.0.10.tar.gz",
@@ -31,9 +42,18 @@ http_archive(
     # sha256 = "218efe8ee736d26a3572663b374a253c012b716d8af0c07e842e82f238a0a7ee",
 )
 
-load("@rules_cuda//cuda:dependencies.bzl", "rules_cuda_dependencies")
+http_archive(
+    name = "rules_cuda",
+    sha256 = "fe8d3d8ed52b9b433f89021b03e3c428a82e10ed90c72808cc4988d1f4b9d1b3",
+    strip_prefix = "rules_cuda-v0.2.5",
+    urls = ["https://github.com/bazel-contrib/rules_cuda/releases/download/v0.2.5/rules_cuda-v0.2.5.tar.gz"],
+)
 
-rules_cuda_dependencies(with_rules_cc = False)
+load("@rules_cuda//cuda:repositories.bzl",
+     "rules_cuda_dependencies", "register_detected_cuda_toolchains")
+
+rules_cuda_dependencies()
+register_detected_cuda_toolchains()
 
 load("@rules_cc//cc:repositories.bzl", "rules_cc_toolchains")
 
@@ -168,7 +188,7 @@ new_local_repository(
 
 new_local_repository(
     name = "opentelemetry-cpp",
-    build_file = "//third_party::opentelemetry-cpp.BUILD",
+    build_file = "//third_party:opentelemetry-cpp.BUILD",
     path = "third_party/opentelemetry-cpp",
 )
 

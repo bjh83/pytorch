@@ -21,6 +21,9 @@ NVCC_COPTS = [
     # in the codebase. It will be a lot of work to fix them, just
     # disable it for now.
     "--compiler-options=-Wno-unused-parameter",
+]
+
+NVCC_HOST_COPTS = [
     # missing-field-parameters has both a large number of violations
     # in the codebase, but it also is used pervasively in the Python C
     # API. There are a couple of catches though:
@@ -35,8 +38,15 @@ NVCC_COPTS = [
     # Hence, we just disable this warning altogether. We may want to
     # clean up some of the clear-cut cases that could be risky, but we
     # still likely want to have this disabled for the most part.
+    #"-Wno-missing-field-initializers",
+    "-Wno-error=missing-field-initializers",
     "-Wno-missing-field-initializers",
 ]
 
 def cu_library(name, srcs, copts = [], **kwargs):
-    cuda_library(name, srcs = srcs, copts = NVCC_COPTS + copts, **kwargs)
+    cuda_library(name = name,
+        srcs = srcs,
+        copts = NVCC_COPTS + copts,
+        host_copts = NVCC_HOST_COPTS,
+        **kwargs
+    )
