@@ -394,6 +394,8 @@ cc_library(
         ":aten_headers",
         "//c10",
         "@cuda",
+        "@rules_cuda//cuda:runtime",
+        "@cuda//:cuda_headers",
         "@cuda//:cuda_driver",
         "@cuda//:nvrtc",
     ],
@@ -764,8 +766,12 @@ cc_library(
         "@kineto",
         "@cpp-httplib",
         "@nlohmann",
+        "@onnx",
     ] + if_cuda([
         "@cuda//:nvToolsExt",
+        "//third_party/cuda:nvtx",      # <-- your shim (see next step)
+        "@cuda//:cuda_headers",         # headers like <nvtx3/nvToolsExt.h>
+        "@rules_cuda//cuda:runtime",    # adds cudart + lib path
         "@cutlass",
         ":torch_cuda",
     ]),

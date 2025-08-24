@@ -1,0 +1,13 @@
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "nvtx",
+    # headers come from the CUDA toolkit include; we depend on it
+    deps = ["@cuda//:cuda_headers"],
+    # link the NVTX shared library
+    linkopts = select({
+        "@platforms//os:linux": ["-lnvToolsExt"],
+        "//conditions:default": [],
+    }),
+)
+

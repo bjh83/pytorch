@@ -42,18 +42,18 @@ http_archive(
     # sha256 = "218efe8ee736d26a3572663b374a253c012b716d8af0c07e842e82f238a0a7ee",
 )
 
-http_archive(
-    name = "rules_cuda",
-    sha256 = "fe8d3d8ed52b9b433f89021b03e3c428a82e10ed90c72808cc4988d1f4b9d1b3",
-    strip_prefix = "rules_cuda-v0.2.5",
-    urls = ["https://github.com/bazel-contrib/rules_cuda/releases/download/v0.2.5/rules_cuda-v0.2.5.tar.gz"],
-)
-
-load("@rules_cuda//cuda:repositories.bzl",
-     "rules_cuda_dependencies", "register_detected_cuda_toolchains")
-
-rules_cuda_dependencies()
-register_detected_cuda_toolchains()
+#http_archive(
+#    name = "rules_cuda",
+#    sha256 = "fe8d3d8ed52b9b433f89021b03e3c428a82e10ed90c72808cc4988d1f4b9d1b3",
+#    strip_prefix = "rules_cuda-v0.2.5",
+#    urls = ["https://github.com/bazel-contrib/rules_cuda/releases/download/v0.2.5/rules_cuda-v0.2.5.tar.gz"],
+#)
+#
+#load("@rules_cuda//cuda:repositories.bzl",
+#     "rules_cuda_dependencies", "register_detected_cuda_toolchains")
+#
+#rules_cuda_dependencies()
+#register_detected_cuda_toolchains()
 
 load("@rules_cc//cc:repositories.bzl", "rules_cc_toolchains")
 
@@ -268,22 +268,22 @@ load("@pip_deps//:requirements.bzl", "install_deps")
 
 install_deps()
 
-load("@pybind11_bazel//:python_configure.bzl", "python_configure")
+#load("@pybind11_bazel//:python_configure.bzl", "python_configure")
 
-python_configure(
-    name = "local_config_python",
-    python_interpreter_target = interpreter,
-)
+#python_configure(
+#    name = "local_config_python",
+#    python_interpreter_target = interpreter,
+#)
 
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
 protobuf_deps()
 
-new_local_repository(
-    name = "cuda",
-    build_file = "@//third_party:cuda.BUILD",
-    path = "/usr/local/cuda",
-)
+#new_local_repository(
+#    name = "cuda",
+#    build_file = "@//third_party:cuda.BUILD",
+#    path = "/usr/local/cuda",
+#)
 
 http_archive(
     name = "cudnn",

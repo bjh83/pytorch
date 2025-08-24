@@ -1,0 +1,120 @@
+module(name = "pytorch", version="0.0.0")
+
+bazel_dep(name = "rules_python", version = "1.5.3")
+bazel_dep(name = "rules_cuda", version = "0.2.5")
+bazel_dep(name = "bazel_skylib", version = "1.8.1")
+bazel_dep(name = "rules_cc", version = "0.2.0")
+bazel_dep(name = "pybind11_bazel", version = "2.13.6")
+bazel_dep(name = "platforms", version = "1.0.0")
+bazel_dep(name = "eigen", version = "4.0.0-20241125.bcr.2")
+bazel_dep(name = "cpp-httplib", version = "0.22.0")
+bazel_dep(name = "fmt", version = "11.2.0")
+bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "protobuf", version = "32.0", repo_name = "com_google_protobuf")
+bazel_dep(name = "glog", version = "0.5.0", repo_name = "com_github_glog")
+bazel_dep(name = "gflags", version = "2.2.2", repo_name = "com_github_gflags_gflags")
+bazel_dep(name = "zlib", version = "1.3.1.bcr.6")
+
+single_version_override(module_name = "rules_cuda", version = "0.2.5")
+
+cuda_ext = use_extension("@rules_cuda//cuda:extensions.bzl", "toolchain")
+
+cuda_ext.local_toolchain(
+    name = "cuda",
+    toolkit_path = "/usr/local/cuda",
+)
+
+cuda_ext.local_toolchain(name = "local_cuda", toolkit_path = "/usr/local/cuda")
+
+
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+
+http_archive(
+  name = "cudnn",
+  url = "https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/linux-x86_64/cudnn-linux-x86_64-9.12.0.46_cuda12-archive.tar.xz",
+  strip_prefix = "cudnn-linux-x86_64-9.12.0.46_cuda12-archive",
+  build_file = "//third_party:cudnn.BUILD",
+)
+
+http_archive(
+  name = "mkl",
+  urls = [
+    "https://anaconda.org/anaconda/mkl/2020.0/download/linux-64/mkl-2020.0-166.tar.bz2"
+  ],
+  sha256 = "59154b30dd74561e90d547f9a3af26c75b6f4546210888f09c9d4db8f4bf9d4c",
+  strip_prefix = "lib",
+  build_file = "//third_party:mkl.BUILD",
+)
+
+http_archive(
+  name = "mkl_headers",
+  urls = [
+    "https://anaconda.org/anaconda/mkl-include/2020.0/download/linux-64/mkl-include-2020.0-166.tar.bz2"
+  ],
+  sha256 = "2af3494a4bebe5ddccfdc43bacc80fcd78d14c1954b81d2c8e3d73b55527af90",
+  build_file = "//third_party:mkl_headers.BUILD",
+)
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(python_version = "3.10")
+use_repo(python, "python_3_10")
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+
+pip.parse(
+    hub_name = "pip_deps_pytorch",
+    python_version = "3.10",
+    requirements_lock = "//:tools/build/bazel/requirements.txt",
+)
+use_repo(pip, pip_deps = "pip_deps_pytorch")
+
+pybind_int = use_extension("@pybind11_bazel//:internal_configure.bzl", "internal_configure_extension")
+use_repo(pybind_int, "pybind11")
+
+non_module_deps = use_extension("//:non_module_deps.bzl", "non_module_deps")
+use_repo(
+    non_module_deps,
+    "com_github_google_flatbuffers",
+    "kineto",
+    "tensorpipe",
+    "fbgemm",
+    "cudnn_frontend",
+    "ideep",
+    "mkl_dnn",
+    "sleef",
+    "asmjit",
+    "org_pytorch_cpuinfo",
+    "cpuinfo",
+    "moodycamel",
+)
+
+http_archive(
+    name = "nlohmann",
+    urls = ["https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz"],
+    strip_prefix = "json",
+    build_file = "//third_party:nlohmann.BUILD",
+)
+
+new_local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "new_local_repository")
+
+new_local_repository(
+    name = "cuda",
+    build_file = "//third_party:cuda.BUILD",
+    path = "/usr/local/cuda",
+)
+
+new_local_repository(
+    name = "cutlass",
+    path = "third_party/cutlass",
+    build_file = "//third_party:cutlass.BUILD",
+)
+
+new_local_repository(
+    name = "onnx",
+    path = "third_party/onnx",
+    build_file = "//third_party:onnx.BUILD",
+)
+
+extension_for_python_configure = use_extension("//:extension_for_python_configure.bzl", "extension_for_python_configure")
+use_repo(extension_for_python_configure, "local_config_python")
