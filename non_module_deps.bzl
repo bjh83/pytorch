@@ -29,11 +29,10 @@ def _non_module_deps_impl(ctx):
       commit = "52791a2fd214b2a9dc5759d36725909c1daa7f2e",
       recursive_init_submodules = True,
   )
-  new_git_repository(
+  git_repository(
       name = "fbgemm",
       remote = "https://github.com/pytorch/fbgemm",
       commit = "157e88b750c452bef2ab4653fe9d1eeb151ce4c3",
-      build_file = "//third_party:fbgemm/BUILD.bazel",
   )
   local_repository(
     name = "com_google_protobuf",
@@ -67,7 +66,7 @@ def _non_module_deps_impl(ctx):
       name = "asmjit",
       remote = "https://github.com/asmjit/asmjit.git",
       commit = "e5d7c0bd5d9aec44d68830187138149e6a8c4e32",
-      build_file = "//third_party:fbgemm/external/asmjit.BUILD",
+      build_file = "//third_party:asmjit.BUILD",
   )
   git_repository(
       name = "org_pytorch_cpuinfo",
