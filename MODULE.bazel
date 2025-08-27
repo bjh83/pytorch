@@ -104,16 +104,20 @@ new_local_repository(
     path = "/usr/local/cuda",
 )
 
-new_local_repository(
+new_git_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:git.bzl", "new_git_repository")
+
+new_git_repository(
     name = "cutlass",
-    path = "third_party/cutlass",
     build_file = "//third_party:cutlass.BUILD",
+    remote = "https://github.com/NVIDIA/cutlass.git",
+    commit = "b995f933179c22d3fe0d871c3a53d11e4681950f",
 )
 
-new_local_repository(
+new_git_repository(
     name = "onnx",
-    path = "third_party/onnx",
     build_file = "//third_party:onnx.BUILD",
+    remote = "https://github.com/onnx/onnx.git",
+    commit = "e709452ef2bbc1d113faf678c24e6d3467696e83",
 )
 
 extension_for_python_configure = use_extension("//:extension_for_python_configure.bzl", "extension_for_python_configure")
