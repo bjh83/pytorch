@@ -69,11 +69,10 @@ def _non_module_deps_impl(ctx):
       commit = "e5d7c0bd5d9aec44d68830187138149e6a8c4e32",
       build_file = "//third_party:fbgemm/external/asmjit.BUILD",
   )
-  new_git_repository(
+  git_repository(
       name = "org_pytorch_cpuinfo",
       remote = "https://github.com/pytorch/cpuinfo.git",
       commit = "5e3d2445e6a84d9599bee2bf78edbb4d80865e1d",
-      build_file = "//third_party:cpuinfo/BUILD.bazel",
   )
   new_git_repository(
       name = "moodycamel",
@@ -81,11 +80,10 @@ def _non_module_deps_impl(ctx):
       commit = "c68072129c8a5b4025122ca5a0c82ab14b30cb03",
       build_file = "//third_party:moodycamel.BUILD",
   )
-  new_git_repository(
+  git_repository(
       name = "cpuinfo",
       remote = "https://github.com/pytorch/cpuinfo.git",
       commit = "5e3d2445e6a84d9599bee2bf78edbb4d80865e1d",
-      build_file = "//third_party:cpuinfo/BUILD.bazel",
   )
 
 # -- repo definitions -- #
