@@ -320,6 +320,7 @@ def run_gen_lazy_tensor(
     lazy_tensor_ptr: str = "LazyTensorPtr",
     get_device_fn: str = "torch::lazy::GetBackendDevice",
 ) -> None:
+    shape_inference_hdr = shape_inference_hdr or default_args.shape_inference_hdr
     lv_tokens = lazy_value_class.split("::")
     lv_class = lv_tokens[-1]
     lv_ns = "::".join(lv_tokens[:-1])

@@ -129,7 +129,9 @@ def define_targets(rules):
               "--gen-dir=$(RULEDIR) " +
               "--native-functions-path $(location :native_functions.yaml) " +
               "--tags-path=$(location :tags.yaml) " +
-              "--gen_lazy_ts_backend",
+              "--gen_lazy_ts_backend " +
+              "--ts_native_functions_cpp $(location :ts_native_functions.cpp) " +
+              "--shape_inference_hdr $(location :shape_inference.h)",
         tools = ["//tools/setup_helpers:generate_code"],
     )
 

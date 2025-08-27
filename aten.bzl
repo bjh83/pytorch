@@ -62,13 +62,16 @@ def generate_aten_impl(ctx):
     outputs = [ops_dir] + ctx.outputs.outs
 
     install_dir = paths.dirname(ops_dir.path)
+    source_path = paths.join(ctx.label.workspace_root, "aten/src/ATen")
+
     ctx.actions.run(
         outputs = outputs,
         inputs = ctx.files.srcs,
         executable = ctx.executable.generator,
+        tools = [ctx.executable.generator],
         arguments = [
             "--source-path",
-            "aten/src/ATen",
+            source_path,
             "--per-operator-headers",
             "--install_dir",
             install_dir,
