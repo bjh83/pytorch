@@ -10,9 +10,9 @@ cc_library(
     visibility = ["//visibility:private"],
 )
 
-cc_import(
+cc_library(
     name = "cudnn_lib",
-    shared_library = "lib/libcudnn.so.9",
+    srcs = glob(["lib/*.so.9"]),
     visibility = ["//visibility:private"],
 )
 
