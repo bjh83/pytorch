@@ -316,12 +316,12 @@ cc_library(
     ) + [
         ":aten_src_ATen_config",
         ":generated_aten_cpp",
-    ],
+    ] + generated_cuda_cpp,
     includes = [
         "aten/src",
     ],
     deps = [
-        "//c10",
+        "//c10:c10_headers",
     ],
 )
 
@@ -376,6 +376,7 @@ cc_library(
         ":caffe2_for_aten_headers",
         ":torch_headers",
         "@fbgemm",
+        "@fmt",
         "@ideep",
         "@nlohmann",
     ],
@@ -442,6 +443,7 @@ cu_library(
     copts = ATEN_COPTS + torch_cuda_half_options,
     visibility = ["//visibility:public"],
     deps = [
+        ":aten_headers",
         ":aten_cuda_cpp",
         "//c10/util:bit_cast",
         "@cuda//:cublas",
@@ -518,7 +520,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":caffe2_core_macros",
-        "//c10",
+        "//c10:c10_headers",
     ],
 )
 
@@ -702,7 +704,7 @@ cc_library(
         ":aten_headers",
         ":caffe2_headers",
         ":torch_flatbuffers",
-        "//c10",
+        "//c10:c10_headers",
         "@com_github_google_flatbuffers//:flatbuffers",
         "@local_config_python//:python_headers",
         "@onnx",
@@ -838,6 +840,29 @@ pybind_extension(
         ":torch_python",
         ":aten_nvrtc",
     ],
+)
+
+cc_import(
+    name = "torch_extension",
+    shared_library = ":torch/_C.so",
+    hdrs = [
+        "torch/extension.h",
+        "torch/csrc/api/include/torch/all.h",
+    ],
+    includes = [
+        "third_party/kineto/libkineto/include",
+        "torch/csrc",
+        "torch/csrc/api/include",
+        "torch/csrc/distributed",
+        "torch/lib",
+        "torch/lib/libshm",
+    ],
+    deps = [
+        "@cudnn",
+        "@mkl",
+        ":torch_headers",
+    ],
+    visibility = ["//visibility:public"],
 )
 
 cc_library(

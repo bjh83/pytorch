@@ -11,12 +11,12 @@ define_targets(rules = rules)
 
 bool_flag(
     name = "use_gflags",
-    build_setting_default = True,
+    build_setting_default = False,
 )
 
 bool_flag(
     name = "use_glog",
-    build_setting_default = True,
+    build_setting_default = False,
 )
 
 config_setting(

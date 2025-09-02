@@ -98,10 +98,6 @@ def define_targets(rules):
                 "*.h",
                 "impl/*.h",
             ],
-            exclude = [
-                "CPUAllocator.h",
-                "impl/alloc_cpu.h",
-            ],
         ),
         visibility = ["//visibility:public"],
     )
